@@ -3,7 +3,8 @@
 # DESCRIPTION.
 This is an app where you can vote for the cutest animal.The animal names are displayed on the web page and one clicks on an animal name to view its details i.e the animal's name,the animal's picture and how many votes the animal has.
 
-###INSTALLATION
+### INSTALLATION
+
 To install the repository on your machine follow the following steps;
 
 -Open a terminal on your computer;
@@ -17,14 +18,14 @@ To install the repository on your machine follow the following steps;
 
 -Open it with a text editor.eg( `Visual Studio Code` by running the command,  code .)
 
-#PROJECT SETUP
+# PROJECT SETUP
 The app runs on a web page.the app fetches data from a mock server and renders it on the page.The names of the animals are displayed on the web page.In order to access an animal's details the user clicks the respective animal name.Upon clicking the animal details(animal name,image of the animal and its votes) are displayed on the page(only the animal details will be displayed at this point).The user can then vote for the animal and it will be reflected on the page.To go back to the list of animal names the user clicks the back button .
 
-#RUNNING THE APPLICATION
+# RUNNING THE APPLICATION
 To run the app on your machine;
 
 -Download the Json server on your machine if you do not have it.
--Open the terminal and run the command;
+-Open the terminal and run the command while in the cloned directory;
 
         json-server --watch db.json
 
