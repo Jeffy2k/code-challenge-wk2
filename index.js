@@ -12,20 +12,21 @@ function fetchBooks() {
 
 //rendering animal names on the page
 function renderAnimals(characters) {
-  const main = document.querySelector("main"); //select the main element
+  createForm();
+  const main = document.querySelector("main");
   //creates a h2 element for each animal
   characters.forEach((animal) => {
+    // individualName(animal)
     const h2 = document.createElement("h2");
-    h2.className = "li";
     h2.addEventListener("click", () => {
       const i = animal.id;
       createAnimalCard(characters[i - 1]);
     });
-
     h2.innerHTML = animal.name;
     main.appendChild(h2);
-  });
+});
 }
+
 
 //deletes the animal details from the page and then calls the fetchBooks() which renders the list of anima names on the page;
 function deleteBox(e) {
@@ -33,8 +34,31 @@ function deleteBox(e) {
   return fetchBooks();
 }
 
-//creates an animal card
+function createForm(){
+let main = document.querySelector('main');
+let container = document.createElement('div');
+container.id = 'container'
+container.innerHTML = `
+<div class="container">
+<form id="submission" >
+  <label for="fname">Animal Name</label>
+  <input type="text" id="fname" name="animalname" placeholder="Animal Name..">
 
+  <label for="image">Image Url</label>
+  <input type="url" id="imageurl" placeholder="image url..">
+
+  <input type="submit" id = "submit"value="Submit">
+</form>
+</div>
+`
+document.querySelector('main').appendChild(container)
+
+document.querySelector("#submit").addEventListener("click", handleSubmission)
+}
+
+
+
+//creates an animal card
 function createAnimalCard(index) {
   fetch(url)
     .then((resp) => resp.json())
@@ -77,9 +101,36 @@ function tallyingVotes(obj) {
     .then((resp) => resp.json())
     .then((result) => {
       let text = document.querySelector("#totalvotes");
-      text = `Votes: ${obj + 1}`;
-      return (document.querySelector("#totalvotes").textContent = text);
+      message = `Votes: ${obj + 1}`;
+      return (document.querySelector("#totalvotes").textContent = message);
     });
+}
+
+
+function handleSubmission(e){
+  e.preventDefault();
+  let animalname = document.getElementById("fname").value;
+  let imageurl = document.getElementById("imageurl").value;
+ let newAnimal = {
+  name: (animalname),
+  image:(imageurl),
+  votes:0
+ }
+ addAnimal(newAnimal);
+ fetchBooks(characters);
+
+}
+
+function addAnimal(newAnimal){
+fetch(url,{
+  method: 'POST',
+  headers: {'Content-Type': 'application/json'},
+  body: JSON.stringify(newAnimal)
+})
+.then(resp => resp.json())
+.then(result => console.log(result))
+
+
 }
 
 document.addEventListener("DOMContentLoaded", function () {
