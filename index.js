@@ -24,9 +24,8 @@ function renderAnimals(characters) {
     });
     h2.innerHTML = animal.name;
     main.appendChild(h2);
-});
+  });
 }
-
 
 //deletes the animal details from the page and then calls the fetchBooks() which renders the list of anima names on the page;
 function deleteBox(e) {
@@ -34,11 +33,11 @@ function deleteBox(e) {
   return fetchBooks();
 }
 
-function createForm(){
-let main = document.querySelector('main');
-let container = document.createElement('div');
-container.id = 'container'
-container.innerHTML = `
+function createForm() {
+  let main = document.querySelector("main");
+  let container = document.createElement("div");
+  container.id = "container";
+  container.innerHTML = `
 <div class="container">
 <form id="submission" >
   <label for="fname">Animal Name</label>
@@ -50,13 +49,11 @@ container.innerHTML = `
   <input type="submit" id = "submit"value="Submit">
 </form>
 </div>
-`
-document.querySelector('main').appendChild(container)
+`;
+  document.querySelector("main").appendChild(container);
 
-document.querySelector("#submit").addEventListener("click", handleSubmission)
+  document.querySelector("#submit").addEventListener("click", handleSubmission);
 }
-
-
 
 //creates an animal card
 function createAnimalCard(index) {
@@ -106,31 +103,30 @@ function tallyingVotes(obj) {
     });
 }
 
-
-function handleSubmission(e){
+function handleSubmission(e) {
   e.preventDefault();
   let animalname = document.getElementById("fname").value;
   let imageurl = document.getElementById("imageurl").value;
- let newAnimal = {
-  name: (animalname),
-  image:(imageurl),
-  votes:0
- }
- addAnimal(newAnimal);
- fetchBooks(characters);
+  if (imageurl !== "" || animalname !== "") {
+    let newAnimal = {
+      name: animalname,
+      image: imageurl,
+      votes: 0,
+    };
 
+    addAnimal(newAnimal);
+    fetchBooks(characters);
+  }
 }
 
-function addAnimal(newAnimal){
-fetch(url,{
-  method: 'POST',
-  headers: {'Content-Type': 'application/json'},
-  body: JSON.stringify(newAnimal)
-})
-.then(resp => resp.json())
-.then(result => console.log(result))
-
-
+function addAnimal(newAnimal) {
+  fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(newAnimal),
+  })
+    .then((resp) => resp.json())
+    .then((result) => console.log(result));
 }
 
 document.addEventListener("DOMContentLoaded", function () {
