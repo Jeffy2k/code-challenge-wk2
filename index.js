@@ -75,36 +75,36 @@ function createAnimalCard(index) {
    <h2 id = "name">${obj.name}</h2>
    <h2 id= "totalvotes" >Votes:  ${obj.votes}</h2>
    <div id = "votes">
-   <button onclick="tallyingVotes(${obj.votes})" id = "btn">VOTE</button>
+   <button id = "btn">VOTE</button>
   </div>
   </div>
   `;
+  list.querySelector("#btn").addEventListener("click", () => {
+    obj.votes +=1;
+    list.querySelector("#totalvotes").textContent = `Votes: ${obj.votes}`
+    handleVoting(obj);
+  })  
       document.querySelector("#demo").appendChild(list); //add the div(list) created to the div with the id demo;
       list.appendChild(button); //adding the back button to the page;
     });
   //removes the list of animal names from the page so that only the animal details are displayed;
   let e = document.querySelector("main");
-  let child = e.lastElementChild;
-  while (child) {
-    e.removeChild(child);
-    child = e.lastElementChild;
+  e.innerHTML=''
   }
-}
 
-//adds the animal votes by one when called;
-function tallyingVotes(obj) {
-  console.log("hello world");
-  fetch(url)
-    .then((resp) => resp.json())
-    .then((result) => {
-      let text = document.querySelector("#totalvotes");
-      message = `Votes: ${obj + 1}`;
-      return (document.querySelector("#totalvotes").textContent = message);
-    });
+
+
+function handleVoting(animalobj){
+  fetch(`http://localhost:3000/characters/${animalobj.id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(animalobj),
+  })
+   .then((resp) => resp.json())
+   .then((obj) => console.log(obj))
 }
 
 function handleSubmission(e) {
-  e.preventDefault();
   let animalname = document.getElementById("fname").value;
   let imageurl = document.getElementById("imageurl").value;
   if (imageurl !== "" || animalname !== "") {
@@ -115,7 +115,7 @@ function handleSubmission(e) {
     };
 
     addAnimal(newAnimal);
-    fetchBooks(characters);
+    fetchAnimal()
   }
 }
 
@@ -131,5 +131,5 @@ function addAnimal(newAnimal) {
 
 document.addEventListener("DOMContentLoaded", function () {
   fetchBooks();
-  tallyingVotes();
+  // tallyingVotes();
 });
